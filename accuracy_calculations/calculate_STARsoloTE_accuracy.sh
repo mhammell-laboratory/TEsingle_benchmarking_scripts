@@ -20,6 +20,7 @@ if [ -z "$3" ];then
     usage
 fi
 
+SCRIPTDIR=$(dirname $0)
 DIR="$1"
 LOCUSTRUTH="$2"
 SUBFAMTRUTH="$3"

@@ -20,6 +20,7 @@ if [ -z "$2" ];then
     usage
 fi
 
+SCRIPTDIR=$(dirname $0)
 DIR="$1"
 TRUTH="$2"
 
