@@ -81,6 +81,11 @@ ${SCRIPT} -k 1 -v 2 -h ${LOCUSTRUTH} processed/${BASE}_locus_counts.txt > ${BASE
 
 wait
 
+if [ $? -ne 0 ]; then
+    echo "Error joining files" >&2
+    exit 1
+fi
+
 if [ ! -d "comparison" ]; then
     mkdir comparison
 fi

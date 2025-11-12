@@ -52,6 +52,11 @@ BASE="${LIBID}"
 
 ${SCRIPT} -k 1 -v 2 -h ${TRUTH} processed/${BASE}_subfam_counts.txt > ${BASE}_subfam_comparison.txt
 
+if [ $? -ne 0 ]; then
+    echo "Error joining results" >&2
+    exit 1
+fi
+
 if [ ! -d "comparison" ]; then
     mkdir comparison
 fi

@@ -25,6 +25,11 @@ TRUTH="$2"
 
 perl "${SCRIPT}" "${FILE}" > "${BASE}_all.tmp"
 
+if [ $? -ne 0 ]; then
+    echo "Error with conversion script" >&2
+    exit 1
+fi
+
 sed 's/;/	/' ${BASE}_all.tmp | sort -k2,2 -S 8G -T $PWD | join -t "	" -1 1 -2 2 ${TELIST} - | awk -v OFS="	" '{print $2 ";" $1 ":TE",$3}' > ${BASE}_TE.tmp &
 sed 's/;/	/' ${BASE}_all.tmp | sort -k2,2 -S 8G -T $PWD| join -t "	" -v 2 -1 1 -2 2 ${TELIST} - | awk -v OFS="	" '{print $2 ";" $1,$3}' > ${BASE}_gene.tmp &
 
