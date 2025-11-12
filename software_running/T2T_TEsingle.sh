@@ -6,7 +6,7 @@
 #SBATCH --export=ALL
 #SBATCH --mem-per-cpu=50G
 #SBATCH --cpus-per-task=10
-#SBATCH -t 7-0:0:0
+#SBATCH -t 5-0:0:0
 
 THREADS=10  
 MAXNUM=100
@@ -34,7 +34,7 @@ BASE=`basename $FILEBASE \.gz`
 BASE=`basename $BASE \.fastq`
 BASE=`basename $BASE \.fq`
 BASE=`basename $BASE _R2`
-OUTDIR="${CURRDIR}/${BASE}"
+OUTDIR="${CURRDIR}/${BASE}_TEsinglePrep"
 
 if [ ! -d "$OUTDIR" ]; then
     mkdir $OUTDIR
@@ -78,7 +78,7 @@ fi
 cd ..
 
 BAM="${OUTDIR}/${BASE}_STAR_10x.bam"
-BASE=$(basename ${BAM} \.bam)
+BASE=$(basename ${BAM} _STAR_10x\.bam)
 BASE="${BASE}_TEsingle"
 
 STRAND="forward"

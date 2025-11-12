@@ -9,7 +9,7 @@
 #SBATCH --export=ALL
 
 CORES=16
-TOTMEM=470
+TOTMEM=470 # Allow 10Gb leeway
 
 if [ -z "$1" ]; then
     echo "sbatch $0 [Cellranger databases] [R2]" >&2
@@ -37,7 +37,7 @@ ln -sf "../${UMI}" ${SAMPLE}_S1_L001_R1_001.fastq.gz
 ln -sf "../${IDX}" ${SAMPLE}_S1_L001_I1_001.fastq.gz
 cd ..
 
-CMD="cellranger count --id=${SAMPLE} --jobmode=local --localcores=${CORES} --localmem=${TOTMEM} --transcriptome=${GENOMEDIR} --fastqs=fq_${SAMPLE} --sample=${SAMPLE} --include-introns=true --chemistry=auto --create-bam=true"
+CMD="cellranger count --id=${SAMPLE}_CRTE --jobmode=local --localcores=${CORES} --localmem=${TOTMEM} --transcriptome=${GENOMEDIR} --fastqs=fq_${SAMPLE} --sample=${SAMPLE} --include-introns=true --chemistry=auto --create-bam=true"
 
 ${CMD}
 

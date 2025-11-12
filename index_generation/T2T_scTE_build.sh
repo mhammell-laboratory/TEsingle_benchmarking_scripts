@@ -30,7 +30,7 @@ then
     exit 1
 fi
 
-scTE_build -gene ${GENE} -te ${TE} -m nointron -o T2T >> ${LOG}
+scTE_build -gene ${GENE} -te ${TE} -m nointron -o T2T_scTE >> ${LOG}
 
 if [ $? -ne 0 ]; then
     echo "Error with scTE run. See ${LOG} for details" >&2

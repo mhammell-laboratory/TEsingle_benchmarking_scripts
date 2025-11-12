@@ -6,7 +6,7 @@
 #SBATCH --export=ALL
 #SBATCH --mem-per-cpu=50G
 #SBATCH --cpus-per-task=10
-#SBATCH -t 7-0:0:0
+#SBATCH -t 5-0:0:0
 
 THREADS=10  
 MAXNUM=100
@@ -15,7 +15,7 @@ MISMATCH=999
 MISMATCH_LMAX="0.04"
 EM_MODE="EM"
 
-if [ -z "$2" ]; then
+if [ -z "$4" ]; then
     echo "Usage; sbatch $0 [STAR index] [white list] [R1] [R2]" >&2
     exit 1
 fi
@@ -32,7 +32,7 @@ BASE=`basename $FILEBASE \.gz`
 BASE=`basename $BASE \.fastq`
 BASE=`basename $BASE \.fq`
 BASE=`basename $BASE _R2`
-OUTDIR="${CURRDIR}/${BASE}"
+OUTDIR="${CURRDIR}/${BASE}_STARsoloTE"
 
 if [ ! -d "$OUTDIR" ]; then
     mkdir $OUTDIR

@@ -1,8 +1,7 @@
 #!/bin/sh -l
 #SBATCH -t 12:0:0
-#SBATCH --mem-per-cpu=50G
+#SBATCH --mem-per-cpu=7G
 #SBATCH --cpus-per-task=10
-#SBATCH --partition=fn_medium
 #SBATCH -J CR_mkref
 #SBATCH -e %x-%j.err
 #SBATCH -o %x-%j.out
