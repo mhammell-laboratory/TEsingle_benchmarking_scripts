@@ -307,7 +307,7 @@ $ perl /path/to/calculate_F1_score.pl /path/to/summary/*_locus_comparison_summar
 TODO
 
 ## Limitations
-This pipeline has been designed for testing a specific version of STARsolo, Cell Ranger, scTE, SoloTE and TEsingle (see versions used in the dependency section). 
+This pipeline has been designed for testing a specific version of STARsolo, Cell Ranger, scTE, SoloTE and TEsingle (see versions used in the dependency section). Newer versions of the software may have changed parameters and output, and could lead to different results.
 
 ### Using accuracry calculation scripts with SLURM
 The accuracy scripts depend on several supporting code/files in the `src` subfolder. When submitting to SLURM, the `src` subfolder might be unlinked from the folder containing the accuracy scripts, leading to the following errors:
@@ -315,14 +315,40 @@ The accuracy scripts depend on several supporting code/files in the `src` subfol
 multijoin: command not found
 Can't open perl script ".../process_scTE_results.pl": No such file or directory
 ```
-In order to fix this, you may need to change the following lines in the following files:
-- 
-
+In order to fix this, you may need to change the following files:
+- [calculate_STARsoloTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_STARsoloTE_accuracy.sh#L23)
+- [calculate_SoloTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_SoloTE_accuracy.sh#L34)
+- [calculate_TEsingle_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_TEsingle_accuracy.sh#L24)
+- [calculate_cellrangerTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_cellrangerTE_accuracy.sh#L23)
+- [calculate_scTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_scTE_accuracy.sh#L18)
 from
 ```
-
+SCRIPTDIR=$(dirname $0)
 ```
 to
 ```
-
+SCRIPTDIR=/path/to/accuracy_calculation
 ```
+
+## Citation
+
+To be provided
+
+## License
+The code in this repository is distributed under the BSD 3-clause license per ASAP Open Access (OA) policy, which facilitates the rapid and free exchange of scientific ideas and ensures that ASAP-funded research fund can be leveraged for future discoveries.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+A copy of BSD 3-clause licence is included along with the software, and can be accessed [here](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/LICENSE).
+
+## Acknowledgments
+
+- Contributors: Talitha Forcier, Oliver Tam, Cole Wunderlich & Molly Gale Hammell
+
+This research was funded in whole by Aligning Science Across Parkinson’s (ASAP-000520) through the Michael J. Fox Foundation for Parkinson’s Research (MJFF).
