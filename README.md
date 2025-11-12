@@ -95,7 +95,7 @@ The code will take the two annotation files (`T2T_gene_scTE.gtf.gz` and `T2T_TE_
 To perform the benchmarking, you will need to obtain the simulated FASTQ in `simulated_fastq.zip` from the [TEsingle benchmarking data repository](). The code is provided in the [`software_running`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/software_running) subfolder
 
 #### Running STARsolo-TE
-You will need to obtain and gunzip the `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
 
 ##### System requirements
 - CPU: 10
@@ -131,9 +131,9 @@ $ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_si
 This will generate output folders (`T2T_simulated_wholecell_CRTE` and `T2T_simulated_singleNuclei_CRTE`) containing the run outputs.
 
 #### Running scTE
-You will need to obtain and gunzip the `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
 
-#### System requirements
+##### System requirements
 - CPU: 10
 - Memory: 50G per core (500G total)
 - Allowed time: up to 5 days
@@ -148,4 +148,41 @@ $ sbatch /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_white
 ```
 This will generate two output files (`T2T_simulated_wholecell_scTE_nointron.csv` and `T2T_simulated_singleNuclei_scTE_nointron.csv`) containing the run outputs.
 
+#### Running SoloTE
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` and `T2T_TE_SoloTE.bed.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ. You will also need the `SoloTE_pipeline.py` script, which should be provided when obtaining SoloTE.
+
+##### System requirements
+- CPU: 10
+- Memory: 50G per core (500G total)
+- Allowed time: up to 5 days
+
+```
+# For running locally
+$ sh /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sh /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+# For submitting to SLURM
+$ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+```
+This will generate a folder (`SoloTE_runs`), with the following folders (`T2T_simulated_wholecell_SoloTE_output` and `T2T_simulated_singleNuclei_SoloTE_output`) containing the run outputs.
+
+#### Running TEsingle
+You will need to obtain and gunzip `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+
+##### System requirements
+- CPU: 10
+- Memory: 50G per core (500G total)
+- Allowed time: up to 5 days
+
+```
+$ sh /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sh /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+# For submitting to SLURM
+$ sbatch /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sbatch /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+```
+This will generate 3 files each:
+- `T2T_simulated_{wholecell,singleNuclei}_TEsingle.annots`: contains the list of features/annotations
+- `T2T_simulated_{wholecell,singleNuclei}_TEsingle.cbcs`: contains the list of barcodes
+- `T2T_simulated_{wholecell,singleNuclei}_TEsingle.mtx`: contains the counts in matrix format
 
