@@ -309,7 +309,7 @@ TODO
 ## Limitations
 This pipeline has been designed for testing a specific version of STARsolo, Cell Ranger, scTE, SoloTE and TEsingle (see versions used in the dependency section). Newer versions of the software may have changed parameters and output, and could lead to different results.
 
-### Using accuracry calculation scripts with SLURM
+### Using accuracy calculation scripts with SLURM
 The accuracy scripts depend on several supporting code/files in the `src` subfolder. When submitting to SLURM, the `src` subfolder might be unlinked from the folder containing the accuracy scripts, leading to the following errors:
 ```
 multijoin: command not found
