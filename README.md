@@ -304,7 +304,9 @@ $ perl /path/to/calculate_F1_score.pl /path/to/summary/*_locus_comparison_summar
 
 ### Figure generation
 
-TODO
+Python notebooks are provided in the `figure_generation` folder for Figures 2B, 2D, 3, and supplementary figures 1 and 2.
+
+These can be opened using [JupyterLab](https://jupyter.org/).
 
 ## Limitations
 This pipeline has been designed for testing a specific version of STARsolo, Cell Ranger, scTE, SoloTE and TEsingle (see versions used in the dependency section). Newer versions of the software may have changed parameters and output, and could lead to different results.
