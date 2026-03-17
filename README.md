@@ -55,7 +55,7 @@ $ git clone https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts
 - Allowed time: up to 12 hours
 
 #### Generating STAR index
-To generate the STAR index, you will need the `T2T_geneTE_forSTAR.gtf.gz` file in `index_generation_files.zip` from the [TEsingle benchmarking data repository](). You can then use the [T2T_STAR_index_generation.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_STAR_index_generation.sh) script, either locally, or submitted to a SLURM cluster.
+To generate the STAR index, you will need the `T2T_geneTE_forSTAR.gtf.gz` file in `index_generation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). You can then use the [T2T_STAR_index_generation.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_STAR_index_generation.sh) script, either locally, or submitted to a SLURM cluster.
 ```
 # If setting up for the first time
 $ mkdir index_building
@@ -71,7 +71,7 @@ $ sbatch /path/to/T2T_STAR_index_generation.sh T2T_STAR_index
 The code will download the T2T (CHM v2) genome FASTA, and use the provided GTF to generate a STAR index in the specified output folder (`T2T_STAR_index`), which can then be used for benchmarking runs.
 
 #### Generating Cell Ranger reference database
-To generate the Cell Ranger custom reference database, you will need the `T2T_geneTE_forCellRangerTE.gtf.gz` file in `index_generation_files.zip` from the [TEsingle benchmarking data repository](). You can then use the [T2T_CellRangerTE_mkref.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_CellRangerTE_mkref.sh) script, either locally or submitted to a SLURM cluster.
+To generate the Cell Ranger custom reference database, you will need the `T2T_geneTE_forCellRangerTE.gtf.gz` file in `index_generation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). You can then use the [T2T_CellRangerTE_mkref.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_CellRangerTE_mkref.sh) script, either locally or submitted to a SLURM cluster.
 ```
 # If setting up for the first time
 $ mkdir index_building
@@ -87,7 +87,7 @@ $ sbatch /path/to/T2T_CellRangerTE_mkref.sh T2T_CellRangerTE_db
 The code will download the T2T (CHM v2) genome FASTA, and use the provided GTF to generate a CellRanger custom reference database in the specified output folder (`T2T_CellrangerTE_db`), which can be used for benchmarking CellRanger-TE.
 
 #### Generating scTE no intron index
-To generate the scTE index (nointron), you will need `T2T_gene_scTE.gtf.gz` and `T2T_TE_scTE.bed.gz` files in `index_generation_files.zip` from the [TEsingle benchmarking data repository](). You can then use the [T2T_scTE_build.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_scTE_build.sh) script, either locally or submitted to a SLURM cluster.
+To generate the scTE index (nointron), you will need `T2T_gene_scTE.gtf.gz` and `T2T_TE_scTE.bed.gz` files in `index_generation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). You can then use the [T2T_scTE_build.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_scTE_build.sh) script, either locally or submitted to a SLURM cluster.
 ```
 # If setting up for the first time
 $ mkdir index_building
@@ -103,10 +103,10 @@ $ sbatch /path/to/T2T_scTE_build.sh
 The code will take the two annotation files (`T2T_gene_scTE.gtf.gz` and `T2T_TE_scTE.bed.gz`) and generate a scTE index (`T2T_scTE.nointron.idx`), which can be used for benchmarking scTE.
 
 ### Running software for benchmarking
-To perform the benchmarking, you will need to obtain the simulated FASTQ in `simulated_fastq.zip` from the [TEsingle benchmarking data repository](). The code is provided in the [`software_running`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/software_running) subfolder
+To perform the benchmarking, you will need to obtain the simulated FASTQ in `simulated_fastq.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). The code is provided in the [`software_running`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/software_running) subfolder
 
 #### Running STARsolo-TE
-You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
 
 ##### System requirements
 - CPU: 10
@@ -142,7 +142,7 @@ $ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_si
 This will generate output folders (`T2T_simulated_wholecell_CRTE` and `T2T_simulated_singleNuclei_CRTE`) containing the run outputs.
 
 #### Running scTE
-You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
 
 ##### System requirements
 - CPU: 10
@@ -160,7 +160,7 @@ $ sbatch /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_white
 This will generate two output files (`T2T_simulated_wholecell_scTE_nointron.csv` and `T2T_simulated_singleNuclei_scTE_nointron.csv`) containing the run outputs.
 
 #### Running SoloTE
-You will need to obtain and gunzip `barcode_whitelist.txt.gz` and `T2T_TE_SoloTE.bed.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ. You will also need the `SoloTE_pipeline.py` script, which should be provided when obtaining SoloTE.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` and `T2T_TE_SoloTE.bed.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ. You will also need the `SoloTE_pipeline.py` script, which should be provided when obtaining SoloTE.
 
 ##### System requirements
 - CPU: 10
@@ -178,7 +178,7 @@ $ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whi
 This will generate a folder (`SoloTE_runs`), with the following folders (`T2T_simulated_wholecell_SoloTE_output` and `T2T_simulated_singleNuclei_SoloTE_output`) containing the run outputs.
 
 #### Running TEsingle
-You will need to obtain and gunzip `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
 
 ##### System requirements
 - CPU: 10
@@ -199,7 +199,7 @@ This will generate 3 files each:
 - `T2T_simulated_{wholecell,singleNuclei}_TEsingle.mtx`: contains the counts in matrix format
 
 ### Accuracy calculation
-To calculate accuracy of various benchmarking runs, you will need to obtain the "ground truth" counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](). The code is provided in the [`accuracy_calculations`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations) subfolder, with additional scripts and files in the [`src`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations/src) subfolder.
+To calculate accuracy of various benchmarking runs, you will need to obtain the "ground truth" counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). The code is provided in the [`accuracy_calculations`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations) subfolder, with additional scripts and files in the [`src`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations/src) subfolder.
 
 Three folders will be generated by the accuracy calculation scripts:
 1. `processed`: this folder contains the counts from benchmarking runs in the format of `[barcode];[feature]<tab>[count]`.
@@ -219,7 +219,7 @@ Three folders will be generated by the accuracy calculation scripts:
 - Allowed time: up to 12 hours
 
 #### Assessing STARsolo-TE accuracy
-You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository]().
+You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667).
 
 ```
 For running locally
@@ -232,7 +232,7 @@ $ sbatch /path/to/calculate_STARsoloTE_accuracy.sh /path/to/T2T_simulated_single
 Four files will be generated in the  `summary` subfolder corresponding to the summary of accuracy calculations for STARsolo-TE on the simulated whole cell (`T2T_simulated_wholecell_STARsoloTE...`) or single nuclei (`T2T_simulated_singleNuclei_STARsoloTE...`) datasets, assessing accuracy at individual TE locus (`..._locus_comparison_summary.txt`) or aggregated into TE subfamilies (`..._subfam_comparison_summary.txt`).
 
 #### Asessing CellRanger-TE accuracy
-You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository]().
+You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667).
 
 ```
 For running locally
@@ -245,7 +245,7 @@ $ sbatch /path/to/calculate_cellrangerTE_accuracy.sh /path/to/T2T_simulated_sing
 Two files will be generated in the `summary` subfolder corresponding to the summary of accuracy calculations for CellRanger-TE on the simulated whole cell (`T2T_simulated_wholecell_CRTE_subfam_comparison_summary.txt`) and single nuclei (`T2T_simulated_singleNuclei_CRTE_subfam_comparison_summary.txt`) datasets.
 
 #### Assessing scTE accuracy
-You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository]().
+You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667).
 
 ```
 For running locally
@@ -258,7 +258,7 @@ $ sbatch /path/to/calculate_scTE_accuracy.sh /path/to/T2T_simulated_singleNuclei
 Two files will be generated in the `summary` subfolder corresponding to the summary of accuracy calculations for scTE on the simulated whole cell (`T2T_simulated_wholecell_scTE_nointron_subfam_comparison_summary.txt`) and single nuclei (`T2T_simulated_singleNuclei_scTE_nointron_subfam_comparison_summary.txt`) datasets.
 
 #### Assessing SoloTE accuracy
-You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts and a conversion file (`T2T_SoloTE_conversion.txt.gz`) in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository]().
+You will need to obtain and unzip the subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts and a conversion file (`T2T_SoloTE_conversion.txt.gz`) in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667).
 
 ```
 For running locally
