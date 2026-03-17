@@ -10,7 +10,7 @@ The pipeline is dividied into four portions:
 3. Calculating accuracy of quantification (quantification output + simulated "ground truth" -> accuracy metric (F1 score)
 4. Generating figures in publication (accuracy metric -> figures)
 
-Files required for this pipeline can be downloaded from [Zenodo]().
+Files required for this pipeline can be downloaded from [Zenodo](https://zenodo.org/records/18261667).
 
 ## Installation
 
