@@ -133,11 +133,11 @@ You will need to ensure that the simulated FASTQ files (I1, R1 and R2) are all i
 
 ```
 # For running locally
-$ sh /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sh /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sh /path/to/T2T_cellrangeTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sh /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 # For submitting to SLURM
-$ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sbatch /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sbatch /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 ```
 This will generate output folders (`T2T_simulated_wholecell_CRTE` and `T2T_simulated_singleNuclei_CRTE`) containing the run outputs.
 
