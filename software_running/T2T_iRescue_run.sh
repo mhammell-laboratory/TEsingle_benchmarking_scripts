@@ -1,5 +1,5 @@
 #!/bin/sh -l
-#SBATCH -J TEsingle
+#SBATCH -J iRescue
 #SBATCH -e %x-%j.err
 #SBATCH -o %x-%j.out
 #SBATCH --partition=fn_medium
@@ -17,15 +17,15 @@ CELLNUM=5000
 STRAND="forward"
 
 if [ -z "$6" ]; then
-    echo "Usage; sbatch $0 [STAR index] [white list] [R1] [R2] [gene GTF] [TE GTF]" >&2
+    echo "Usage; sbatch $0 [STAR index] [white list] [R1] [R2] [iRescue subfam BED] [iRescue locus BED]" >&2
     exit 1
 fi
 GENOME="$1"
 WHITELIST="$2"
 UMI="$3"
 INPUT="$4"
-GENEGTF="$5"
-TEGTF="$6"
+SUBFAM="$5"
+LOCUS="$6"
 
 CURRDIR=$PWD
 
@@ -35,7 +35,7 @@ BASE=`basename $FILEBASE \.gz`
 BASE=`basename $BASE \.fastq`
 BASE=`basename $BASE \.fq`
 BASE=`basename $BASE _R2`
-OUTDIR="${CURRDIR}/${BASE}_TEsinglePrep"
+OUTDIR="${CURRDIR}/${BASE}_iRescuePrep"
 
 if [ ! -d "$OUTDIR" ]; then
     mkdir $OUTDIR
@@ -80,17 +80,28 @@ cd ..
 
 BAM="${OUTDIR}/${BASE}_STAR_10x.bam"
 BASE=$(basename ${BAM} _STAR_10x\.bam)
-BASE="${BASE}_TEsingle"
+OUTDIR="${BASE}_iRescue_subfam"
 
-STRAND="forward"
-MINUMI=1000
-CMD="TEsingle -b ${BAM} --GTF ${GENEGTF} --TE ${TEGTF} --stranded ${STRAND} --threads 10 --cutoff ${MINUMI} --project ${BASE}"
+CMD="irescue -b ${BAM} -r ${SUBFAM} --strandedness ${STRAND} -p 10 -o ${OUTDIR}"
 
 ${CMD}
 
 if [ $? -ne 0 ]; then
-    echo "Error with TEsingle" >&2
+    echo "Error with iRescue subfam run" >&2
     exit 1
 else
-    echo "Done"
+    echo "Done with iRescue subfam run"
+fi
+
+OUTDIR="${BASE}_iRescue_locus"
+
+CMD="irescue -b ${BAM} -r ${LOCUS} --strandednewss ${STRAND} -p 10 -o ${OUTDIR}"
+
+${CMD}
+
+if [ $? -ne 0 ]; then
+    echo "Error with iRescue locus run" >&2
+    exit 1
+else
+    echo "Done with iRescue locus run"
 fi

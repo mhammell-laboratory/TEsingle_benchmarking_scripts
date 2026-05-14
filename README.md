@@ -25,6 +25,7 @@ Files required for this pipeline can be downloaded from [Zenodo](https://zenodo.
 - [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/downloads) v8.0.1 : [installation instructions](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials/cr-tutorial-in#tutorial)
 - [scTE](https://github.com/JiekaiLab/scTE) [April 2024 commit](https://github.com/JiekaiLab/scTE/tree/566f6ab3baaf76cd006ab965edc08e4576eb73c9) : [installation instructions](https://github.com/JiekaiLab/scTE/blob/master/README.md)
 - [SoloTE](https://github.com/bvaldebenitom/SoloTE) [May 2024 commit](https://github.com/bvaldebenitom/SoloTE/tree/b90b144912358b405183e47eb566e1e90f657d9f) : [installation instructions](https://github.com/bvaldebenitom/SoloTE/blob/main/README.md)
+- [iRescue](https://github.com/bodegalab/irescue) v1.2.0: [installation instructions](https://github.com/bodegalab/irescue/blob/main/README.md)
 - [TEsingle](https://github.com/mhammell-laboratory/TEsingle) v1.0 : [installation instructions](https://github.com/mhammell-laboratory/TEsingle/blob/main/README.rst)
 
 A `conda` environment YAML file is provided in the repository that would install Python, bedtools, JupyterLab, samtools and STAR. Please follow these [instructions](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file) to create a conda environment from the YAML file.
@@ -102,6 +103,19 @@ $ sbatch /path/to/T2T_scTE_build.sh
 ```
 The code will take the two annotation files (`T2T_gene_scTE.gtf.gz` and `T2T_TE_scTE.bed.gz`) and generate a scTE index (`T2T_scTE.nointron.idx`), which can be used for benchmarking scTE.
 
+#### Generating iRescue annotation files
+To generate the iRescue annotation files, you will need
+the`T2T_TEsingle_TE.gtf.gz` from the [TEsingle benchmarking data
+repository](https://zenodo.org/records/18261667). You can then use the
+[T2T_iRescue_BED_generation.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/index_generation/T2T_iRescue_BED_generation.sh)
+script.
+```
+$ sh /path/to/T2T_iRescue_BED_generation.sh /path/to/T2T_TEsingle_TE.gtf.gz
+```
+The code will take the TE GTF file and generate two BED files,
+`T2T_iRescue_TEsubfam.bed` and `T2T_iRescue_TElocus.bed`, which can be
+used for the iRescue subfamily and locus analysis respectively.
+
 ### Running software for benchmarking
 To perform the benchmarking, you will need to obtain the simulated FASTQ in `simulated_fastq.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). The code is provided in the [`software_running`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/software_running) subfolder
 
@@ -177,8 +191,28 @@ $ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whi
 ```
 This will generate a folder (`SoloTE_runs`), with the following folders (`T2T_simulated_wholecell_SoloTE_output` and `T2T_simulated_singleNuclei_SoloTE_output`) containing the run outputs.
 
+#### Running iRescue
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ and the iRescue TE annotations generated as described earlier.
+
+##### System requirements
+- CPU: 10
+- Memory: 50G per core (500G total)
+- Allowed time: up to 5 days
+
+```
+# For running locally
+$ sh /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sh /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+# For submitting to SLURM
+$ sbatch /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sbatch /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+```
+This will generate 4 output folders
+(`T2T_simulated_wholecell_iRescue_subfam`,
+`T2T_simulated_wholecell_iRescue_locus`, `T2T_simulated_singleNuclei_iRescue_subfam` and `T2T_simulated_singleNuclei_iRescue_locus`) containing the run outputs.
+
 #### Running TEsingle
-You will need to obtain and gunzip `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
+You will need to obtain and gunzip `barcode_whitelist.txt.gz`, `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
 
 ##### System requirements
 - CPU: 10
@@ -269,6 +303,23 @@ $ sbatch /path/to/calculate_SoloTE_accuracy.sh /path/to/T2T_SoloTE_conversion.tx
 $ sbatch /path/to/calculate_SoloTE_accuracy.sh /path/to/T2T_SoloTE_conversion.txt /path/to/SoloTE_runs/T2T_simulated_singleNuclei_SoloTE_output /path/to/T2T_simulated_singleNuclei_TEsubfam_counts.txt
 ```
 Two files will be generated in the `summary` subfolder corresponding to the summary of accuracy calculations for SoloTE on the simulated whole cell (`T2T_simulated_wholecell_SoloTE_subfam_comparison_summary.txt`) and single nuclei (`T2T_simulated_singleNuclei_SoloTE_subfam_comparison_summary.txt`) datasets.
+
+#### Assessing iRescue accuracy
+You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667).
+
+```
+For running locally
+$ sh /path/to/calculate_iRescue_accuracy.sh subfam /path/to/T2T_simulated_wholecell_iRescue_subfam /path/to/T2T_simulated_wholecell_TEsubfam_counts.txt
+$ sh /path/to/calculate_iRescue_accuracy.sh locus /path/to/T2T_simulated_wholecell_iRescue_locus /path/to/T2T_simulated_wholecell_TElocus_counts.txt
+$ sh /path/to/calculate_STARsoloTE_accuracy.sh subfam /path/to/T2T_simulated_wholecell_iRescue_subfam /path/to/T2T_simulated_singleNuclei_TEsubfam_counts.txt
+$ sh /path/to/calculate_STARsoloTE_accuracy.sh locus /path/to/T2T_simulated_singleNuclei_iRescue_locus /path/to/T2T_simulated_singleNuclei_TElocus_counts.txt
+For submitting to SLURM
+$ sbatch /path/to/calculate_iRescue_accuracy.sh subfam /path/to/T2T_simulated_wholecell_iRescue_subfam /path/to/T2T_simulated_wholecell_TEsubfam_counts.txt
+$ sbatch /path/to/calculate_iRescue_accuracy.sh locus /path/to/T2T_simulated_wholecell_iRescue_locus /path/to/T2T_simulated_wholecell_TElocus_counts.txt
+$ sbatch /path/to/calculate_STARsoloTE_accuracy.sh subfam /path/to/T2T_simulated_wholecell_iRescue_subfam /path/to/T2T_simulated_singleNuclei_TEsubfam_counts.txt
+$ sbatch /path/to/calculate_STARsoloTE_accuracy.sh locus /path/to/T2T_simulated_singleNuclei_iRescue_locus /path/to/T2T_simulated_singleNuclei_TElocus_counts.txt
+```
+Four files will be generated in the  `summary` subfolder corresponding to the summary of accuracy calculations for STARsolo-TE on the simulated whole cell (`T2T_simulated_wholecell_iRescue...`) or single nuclei (`T2T_simulated_singleNuclei_iRescue...`) datasets, assessing accuracy at individual TE locus (`..._locus_comparison_summary.txt`) or aggregated into TE subfamilies (`..._subfam_comparison_summary.txt`).
 
 #### Assessing TEsingle accuracy
 You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](). The code also assumes that the `.annots` and `.cbcs` output files are in the same folder as the `.mtx` files.
