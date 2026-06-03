@@ -43,6 +43,7 @@ cat ${BASE}_gene.tmp ${BASE}_TE.tmp | sort -k1,1 -T $PWD -S 18G | groupBy -g 1 -
 
 if [ $? -ne 0 ]; then
     echo "Error with generating output" >&2
+    exit 1
 else
     rm ${BASE}_all.tmp ${BASE}_TE.tmp ${BASE}_gene.tmp
 fi
