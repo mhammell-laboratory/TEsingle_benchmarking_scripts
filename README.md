@@ -212,6 +212,24 @@ This will generate 4 output folders
 (`T2T_simulated_wholecell_iRescue_subfam`,
 `T2T_simulated_wholecell_iRescue_locus`, `T2T_simulated_singleNuclei_iRescue_subfam` and `T2T_simulated_singleNuclei_iRescue_locus`) containing the run outputs.
 
+#### Running MATES
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), and obtain `TE_nooverlap.csv` and `TE_nooverlap.bed` in `T2T_MATES_reference.zip` from the [TEsingle MATES benchmarking data repository](https://zenodo.org/records/20544251), in addition to the simulated FASTQ.
+
+##### System requirements
+- CPU: 10
+- Memory: 50G per core (500G total)
+- Allowed time: up to 5 days
+
+```
+# For running locally
+$ sh /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sh /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+# For submitting to SLURM
+$ sbatch /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sbatch /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+```
+This will generate two output folder (`T2T_simulated_wholecell_MATES_exclusive`, `T2T_simulated_singlenuclei_MATES_exclusive`) containing the run outputs.
+
 #### Running TEsingle
 You will need to obtain and gunzip `barcode_whitelist.txt.gz`, `T2T_TEsingle_gene.gtf.gz` and `T2T_TEsingle_TE.gtf.gz` in `run_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667), in addition to the simulated FASTQ.
 
@@ -322,6 +340,19 @@ $ sbatch /path/to/calculate_STARsoloTE_accuracy.sh locus /path/to/T2T_simulated_
 ```
 Four files will be generated in the  `summary` subfolder corresponding to the summary of accuracy calculations for STARsolo-TE on the simulated whole cell (`T2T_simulated_wholecell_iRescue...`) or single nuclei (`T2T_simulated_singleNuclei_iRescue...`) datasets, assessing accuracy at individual TE locus (`..._locus_comparison_summary.txt`) or aggregated into TE subfamilies (`..._subfam_comparison_summary.txt`).
 
+#### Assessing MATES accuracy
+You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). You will also need the `T2T_MATES2instance.txt` file in `T2T_MATES_reference.zip` from the [TEsingle MATES benchmarking data repository](https://zenodo.org/records/20544251).
+
+```
+For running locally
+$ sh /path/to/calculate_STARsoloTE_accuracy.sh /path/to/T2T_simulated_wholecell_MATES_exclusive /path/to/T2T_MATES2instance.txt /path/to/T2T_simulated_wholecell_TElocus_counts.txt /path/to/T2T_simulated_wholecell_TEsubfam_counts.txt
+$ sh /path/to/calculate_STARsoloTE_accuracy.sh /path/to/T2T_simulated_singleNuclei_MATES_exclusive /path/to/T2T_MATES2instance.txt /path/to/T2T_simulated_singleNuclei_TElocus_counts.txt /path/to/T2T_simulated_singleNuclei_TEsubfam_counts.txt
+For submitting to SLURM
+$ sbath /path/to/calculate_STARsoloTE_accuracy.sh /path/to/T2T_simulated_wholecell_MATES_exclusive /path/to/T2T_MATES2instance.txt /path/to/T2T_simulated_wholecell_TElocus_counts.txt /path/to/T2T_simulated_wholecell_TEsubfam_counts.txt
+$ sbath /path/to/calculate_STARsoloTE_accuracy.sh /path/to/T2T_simulated_singleNuclei_MATES_exclusive /path/to/T2T_MATES2instance.txt /path/to/T2T_simulated_singleNuclei_TElocus_counts.txt /path/to/T2T_simulated_singleNuclei_TEsubfam_counts.txt
+```
+Four files will be generated in the  `summary` subfolder corresponding to the summary of accuracy calculations for MATES on the simulated whole cell (`T2T_simulated_wholecell_STARsoloTE...`) or single nuclei (`T2T_simulated_singleNuclei_STARsoloTE...`) datasets, assessing accuracy at individual TE locus (`..._locus_comparison_summary.txt`) or aggregated into TE subfamilies (`..._subfam_comparison_summary.txt`).
+
 #### Assessing TEsingle accuracy
 You will need to obtain and unzip both the locus (`T2T_simulated_{wholecell,singleNuclei}_TElocus_counts.txt.gz`) and subfamily (`T2T_simulated_{wholecell,singleNuclei}_TEsubfam_counts.txt.gz`) simulated counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](). The code also assumes that the `.annots` and `.cbcs` output files are in the same folder as the `.mtx` files.
 
@@ -376,6 +407,7 @@ In order to fix this, you may need to change the following files:
 - [calculate_cellrangerTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_cellrangerTE_accuracy.sh#L23)
 - [calculate_scTE_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_scTE_accuracy.sh#L18)
 - [calculate_iRescue_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_iRescue_accuracy.sh#L27)
+- [calculate_MATES_accuracy.sh](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/blob/main/accuracy_calculations/calculate_MATES_accuracy.sh#L24)
 
 from
 ```
