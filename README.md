@@ -26,6 +26,7 @@ Files required for this pipeline can be downloaded from [Zenodo](https://zenodo.
 - [scTE](https://github.com/JiekaiLab/scTE) [April 2024 commit](https://github.com/JiekaiLab/scTE/tree/566f6ab3baaf76cd006ab965edc08e4576eb73c9) : [installation instructions](https://github.com/JiekaiLab/scTE/blob/master/README.md)
 - [SoloTE](https://github.com/bvaldebenitom/SoloTE) [May 2024 commit](https://github.com/bvaldebenitom/SoloTE/tree/b90b144912358b405183e47eb566e1e90f657d9f) : [installation instructions](https://github.com/bvaldebenitom/SoloTE/blob/main/README.md)
 - [iRescue](https://github.com/bodegalab/irescue) v1.2.0: [installation instructions](https://github.com/bodegalab/irescue/blob/main/README.md)
+- [MATES](https://github.com/mcgilldinglab/MATES) v0.1.8: [installation instructions](https://github.com/mcgilldinglab/MATES/blob/main/README.md)
 - [TEsingle](https://github.com/mhammell-laboratory/TEsingle) v1.0 : [installation instructions](https://github.com/mhammell-laboratory/TEsingle/blob/main/README.rst)
 
 A `conda` environment YAML file is provided in the repository that would install Python, bedtools, JupyterLab, samtools and STAR. Please follow these [instructions](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file) to create a conda environment from the YAML file.
