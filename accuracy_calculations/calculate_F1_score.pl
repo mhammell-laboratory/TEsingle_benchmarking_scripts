@@ -61,10 +61,15 @@ print "Genes\t",join("\t",@geneF1), "\n";
 print "TE\t",join("\t",@TEF1), "\n";
 
 sub calculateF1{
-  my ($exact,$within15pc,$over,$under,$fp,$fn) = @_; 
+  my ($exact,$within15pc,$over,$under,$fp,$fn) = @_;
   my $accurate = $exact + $within15pc;
-  my $precision = $accurate / ($accurate + $over + $under + $fp);
-  my $sensitivity = $accurate / ($accurate + $over + $under + $fn);
-  my $F1 = (2 * $precision * $sensitivity) / ($precision + $sensitivity);
+  my $denom = $accurate + $over + $under + $fp;
+  my $precision;
+  ($denom == 0) ? ($precision = 0) : ($precision = $accurate / ($accurate + $over + $under + $fp));
+  my $sensitivity;
+  $denom = $accurate + $over + $under + $fn;
+  ($denom == 0) ? ($sensitivity = 0) : ($sensitivity = $accurate / ($accurate + $over + $under + $fn));
+  my $F1;
+  ($sensitivity == 0) ? ($F1 = 0) : ($F1 = (2 * $precision * $sensitivity) / ($precision + $sensitivity));
   return $F1;
 }
