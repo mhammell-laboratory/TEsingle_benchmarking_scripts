@@ -55,7 +55,7 @@ if [ ! -d "processed" ]; then
     mkdir processed
 fi
 
-gunzip -cf "${MTX}" | sed '1,3d;s/ /,/g' | sort -k2,2 -S 2G -T $PWD -t "," | join -t "," -j 2 - "${LIBID}_bc.csv" | sort -k2,2 -S 2G -T $PWD -t "," | join -t "," -j 2 - "${LIBID}_feat.csv" | awk -F "," -v OFS="	" '{print $5 ";" $4,$3}' | sort -k1,1 -S 5G -T $PWD | groupBy -g 1 -c 2 -o sum > "processed/${LIBID}_locus_counts.txt"
+gunzip -cf "${MTX}" | sed '1,3d;s/ /,/g' | sort -k2,2 -S 2G -T $PWD -t "," | join -t "," -j 2 - "${LIBID}_bc.csv" | sort -k2,2 -S 2G -T $PWD -t "," | join -t "," -j 2 - "${LIBID}_feat.csv" | awk -F "," -v OFS="	" '{print $4 ";" $5,$3}' | sort -k1,1 -S 5G -T $PWD | groupBy -g 1 -c 2 -o sum > "processed/${LIBID}_locus_counts.txt"
 
 if [ $? -ne 0 ];then
     echo "Error in annotating matrix" >&2
