@@ -11,7 +11,7 @@
 usage(){
     echo "
     Usage: sbatch $0 [cellranger output directory] 
-                     [T2T TEsubfam simulated counts]
+                     [TEsubfam simulated counts]
 " >&2
     exit 1
 }

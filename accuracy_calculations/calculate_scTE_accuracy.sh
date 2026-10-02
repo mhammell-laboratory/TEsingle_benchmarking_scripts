@@ -10,14 +10,14 @@
 if [ -z "$1" ]; then
     echo "
     Usage: sbatch $0 [scTE csv output] 
-                     [T2T TEsubfam simulated counts]
+                     [TEsubfam simulated counts]
 " >&2
     exit 1
 fi
 
 SCRIPTDIR=$(dirname $0)
 SCRIPT="${SCRIPTDIR}/src/process_scTE_results.pl"
-TELIST="${SCRIPTDIR}/src/T2T_scTE_subfamID.txt"
+TELIST="${SCRIPTDIR}/src/scTE_subfamID.txt"
 
 FILE="$1"
 BASE=$(basename ${FILE} \.csv)

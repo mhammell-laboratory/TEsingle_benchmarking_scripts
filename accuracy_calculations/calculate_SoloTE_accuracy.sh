@@ -9,9 +9,9 @@
 
 usage(){
     echo "
-    Usage: sbatch $0 [T2T SoloTE conversion file]
+    Usage: sbatch $0 [SoloTE conversion file]
                      [SoloTE output directory]
-                     [T2T TEsubfam simulated counts]
+                     [TEsubfam simulated counts]
 " >&2
     exit 1
 }

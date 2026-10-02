@@ -11,11 +11,11 @@ usage(){
     echo "
     Usage: sbatch $0 subfam 
                      [iRescue subfamily output directory]
-                     [T2T TEsubfam simulated counts]
+                     [TEsubfam simulated counts]
 
            sbatch $0 locus
                      [iRescue locus output directory]
-                     [T2T TElocus simulated counts]
+                     [TElocus simulated counts]
 " >&2
     exit 1
 }

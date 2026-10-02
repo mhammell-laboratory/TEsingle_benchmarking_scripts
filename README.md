@@ -10,7 +10,7 @@ The pipeline is dividied into four portions:
 3. Calculating accuracy of quantification (quantification output + simulated "ground truth" -> accuracy metric (F1 score)
 4. Generating figures in publication (accuracy metric -> figures)
 
-Files required for this pipeline can be downloaded from [Zenodo](https://zenodo.org/records/18261667).
+Files required for this pipeline can be downloaded from Zenodo for the [T2T](https://zenodo.org/records/18261667) and [hg38](https://zenodo.org/records/23108118).
 
 ## Installation
 
@@ -25,6 +25,7 @@ Files required for this pipeline can be downloaded from [Zenodo](https://zenodo.
 - [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/downloads) v8.0.1 : [installation instructions](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials/cr-tutorial-in#tutorial)
 - [scTE](https://github.com/JiekaiLab/scTE) [April 2024 commit](https://github.com/JiekaiLab/scTE/tree/566f6ab3baaf76cd006ab965edc08e4576eb73c9) : [installation instructions](https://github.com/JiekaiLab/scTE/blob/master/README.md)
 - [SoloTE](https://github.com/bvaldebenitom/SoloTE) [May 2024 commit](https://github.com/bvaldebenitom/SoloTE/tree/b90b144912358b405183e47eb566e1e90f657d9f) : [installation instructions](https://github.com/bvaldebenitom/SoloTE/blob/main/README.md)
+- [Stellarscope](https://github.com/nixonlab/stellarscope) v1.5: [installation instructions](https://github.com/nixonlab/stellarscope/blob/main/docs/protocol.md)
 - [iRescue](https://github.com/bodegalab/irescue) v1.2.0: [installation instructions](https://github.com/bodegalab/irescue/blob/main/README.md)
 - [MATES](https://github.com/mcgilldinglab/MATES) v0.1.8: [installation instructions](https://github.com/mcgilldinglab/MATES/blob/main/README.md)
 - [TEsingle](https://github.com/mhammell-laboratory/TEsingle) v1.0 : [installation instructions](https://github.com/mhammell-laboratory/TEsingle/blob/main/README.rst)
@@ -47,6 +48,8 @@ $ git clone https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts
 - `sofware_running`: contains scripts for running various software for benchmarking 
 
 ## How to use the pipeline
+
+The instructions below are based on the T2T pipeline, but can be used for the hg38 pipeline.
 
 ### Reference database generation
 `STAR`, Cell Ranger and `scTE` requires generation of indices/reference databases prior to their use. The code is provided in the [index_generation](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/index_generation) subfolder.
@@ -130,11 +133,11 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip`
 
 ```
 # For running locally
-$ sh /path/to/T2T_STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sh /path/to/T2T_STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sh /path/to/STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sh /path/to/STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 # For submitting to SLURM
-$ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sbatch /path/to/T2T_STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sbatch /path/to/STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sbatch /path/to/STARsoloTE.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 ```
 This will generate output folders (`T2T_simulated_wholecell_STARsoloTE` and `T2T_simulated_singleNuclei_STARsoloTE`) containing the run outputs.
 
@@ -148,11 +151,11 @@ You will need to ensure that the simulated FASTQ files (I1, R1 and R2) are all i
 
 ```
 # For running locally
-$ sh /path/to/T2T_cellrangeTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sh /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sh /path/to/cellrangeTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sh /path/to/cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 # For submitting to SLURM
-$ sbatch /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
-$ sbatch /path/to/T2T_cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
+$ sbatch /path/to/cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_wholecell_R2.fastq.gz
+$ sbatch /path/to/cellrangerTE.sh /path/to/T2T_CellRangerTE_db /path/to/T2T_simulated_singleNuclei_R2.fastq.gz
 ```
 This will generate output folders (`T2T_simulated_wholecell_CRTE` and `T2T_simulated_singleNuclei_CRTE`) containing the run outputs.
 
@@ -166,11 +169,11 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip`
 
 ```
 # For running locally
-$ sh /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
-$ sh /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
+$ sh /path/to/scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
+$ sh /path/to/scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
 # For submitting to SLURM
-$ sbatch /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
-$ sbatch /path/to/T2T_scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
+$ sbatch /path/to/scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
+$ sbatch /path/to/scTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_scTE.nointron.idx
 ```
 This will generate two output files (`T2T_simulated_wholecell_scTE_nointron.csv` and `T2T_simulated_singleNuclei_scTE_nointron.csv`) containing the run outputs.
 
@@ -184,11 +187,11 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz` and `T2T_TE_SoloTE
 
 ```
 # For running locally
-$ sh /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
-$ sh /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sh /path/to/SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sh /path/to/SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
 # For submitting to SLURM
-$ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
-$ sbatch /path/to/T2T_SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sbatch /path/to/SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
+$ sbatch /path/to/SoloTE_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/SoloTE_pipeline.py /path/to/T2T_TE_soloTE.bed
 ```
 This will generate a folder (`SoloTE_runs`), with the following folders (`T2T_simulated_wholecell_SoloTE_output` and `T2T_simulated_singleNuclei_SoloTE_output`) containing the run outputs.
 
@@ -202,11 +205,11 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip`
 
 ```
 # For running locally
-$ sh /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
-$ sh /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sh /path/to/iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sh /path/to/iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
 # For submitting to SLURM
-$ sbatch /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
-$ sbatch /path/to/T2T_iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sbatch /path/to/iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
+$ sbatch /path/to/iRescue_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_iRescue_TEsubfam.bed /path/to/T2T_iRescue_TElocus.bed
 ```
 This will generate 4 output folders
 (`T2T_simulated_wholecell_iRescue_subfam`,
@@ -222,11 +225,11 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz` in `run_files.zip`
 
 ```
 # For running locally
-$ sh /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
-$ sh /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sh /path/to/MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sh /path/to/MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
 # For submitting to SLURM
-$ sbatch /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
-$ sbatch /path/to/T2T_MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sbatch /path/to/MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
+$ sbatch /path/to/MATES_run.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/TE_nooverlap.bed /path/to/TE_nooverlap.csv
 ```
 This will generate two output folder (`T2T_simulated_wholecell_MATES_exclusive`, `T2T_simulated_singlenuclei_MATES_exclusive`) containing the run outputs.
 
@@ -240,16 +243,37 @@ You will need to obtain and gunzip `barcode_whitelist.txt.gz`, `T2T_TEsingle_gen
 
 ```
 # For running locally
-$ sh /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
-$ sh /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sh /path/to/TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sh /path/to/TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
 # For submitting to SLURM
-$ sbatch /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
-$ sbatch /path/to/T2T_TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sbatch /path/to/TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_wholecell_R1.fastq.gz /path/to/T2T_simulated_wholecell_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
+$ sbatch /path/to/TEsingle.sh /path/to/T2T_STAR_index /path/to/barcode_whitelist.txt /path/to/T2T_simulated_singleNuclei_R1.fastq.gz /path/to/T2T_simulated_singleNuclei_R2.fastq.gz /path/to/T2T_TEsingle_gene.gtf /path/to/T2T_TEsingle_TE.gtf
 ```
 This will generate 3 files each:
 - `T2T_simulated_{wholecell,singleNuclei}_TEsingle.annots`: contains the list of features/annotations
 - `T2T_simulated_{wholecell,singleNuclei}_TEsingle.cbcs`: contains the list of barcodes
 - `T2T_simulated_{wholecell,singleNuclei}_TEsingle.mtx`: contains the counts in matrix format
+
+#### Running Stellarscope (hg38 only)
+You will need to obtain and gunzip `barcode_whitelist.txt.gz` and `hg38_stellarscope_retroV1.gtf` in `run_files.zip` from the [TEsingle benchmarking data repository for hg38](https://zenodo.org/records/23108118), in addition to the simulated FASTQ from the same repository.
+
+##### System requirements
+- CPU: 10
+- Memory: 50G per core (500G total)
+- Allowed time: up to 5 days
+
+```
+# For running locally
+$ sh /path/to/stellarscope.sh /path/to/hg38_STAR_index /path/to/barcode_whitelist.txt /path/to/hg38_simulated_wholecell_R1.fastq.gz /path/to/hg38_simulated_wholecell_R2.fastq.gz /path/to/hg38_stellarscope_retroV1.gtf
+$ sh /path/to/stellarscope.sh /path/to/hg38_STAR_index /path/to/barcode_whitelist.txt /path/to/hg38_simulated_singleNuclei_R1.fastq.gz /path/to/hg38_simulated_singleNuclei_R2.fastq.gz /path/to/hg38_stellarscope_retroV1.gtf
+# For submitting to SLURM
+$ sbatch /path/to/stellarscope.sh /path/to/hg38_STAR_index /path/to/barcode_whitelist.txt /path/to/hg38_simulated_wholecell_R1.fastq.gz /path/to/hg38_simulated_wholecell_R2.fastq.gz /path/to/hg38_stellarscope_retroV1.gtf
+$ sbatch /path/to/stellarscope.sh /path/to/hg38_STAR_index /path/to/barcode_whitelist.txt /path/to/hg38_simulated_singleNuclei_R1.fastq.gz /path/to/hg38_simulated_singleNuclei_R2.fastq.gz /path/to/hg38_stellarscope_retroV1.gtf
+```
+This will generate multiple files for each run, with the following being the critical ones for subsequent analysis:
+- `hg38_simulated_{wholecell,singleNuclei}_individual-features.tsv`: contains the list of features/annotations
+- `hg38_simulated_{wholecell,singleNuclei}_individual-barcodes.tsv`: contains the list of barcodes
+- `hg38_simulated_{wholecell,singleNuclei}_individual-TE_counts.mtx`: contains the counts in matrix format
 
 ### Accuracy calculation
 To calculate accuracy of various benchmarking runs, you will need to obtain the "ground truth" counts in `accuracy_calculation_files.zip` from the [TEsingle benchmarking data repository](https://zenodo.org/records/18261667). The code is provided in the [`accuracy_calculations`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations) subfolder, with additional scripts and files in the [`src`](https://github.com/mhammell-laboratory/TEsingle_benchmarking_scripts/tree/main/accuracy_calculations/src) subfolder.

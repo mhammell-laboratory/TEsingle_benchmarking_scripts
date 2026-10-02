@@ -10,8 +10,8 @@
 usage(){
     echo "
     Usage: sbatch $0 [STARsolo directory]
-                     [T2T TElocus simulated counts]
-                     [T2T TEsubfam simulated counts]
+                     [TElocus simulated counts]
+                     [TEsubfam simulated counts]
 " >&2
     exit 1
 }

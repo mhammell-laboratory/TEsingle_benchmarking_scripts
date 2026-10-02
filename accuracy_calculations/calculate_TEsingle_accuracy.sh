@@ -10,8 +10,8 @@
 usage(){
     echo "
     Usage: sbatch $0 [mtx file]
-                     [T2T TElocus simulated counts]
-                     [T2T TEsubfam simulated counts]
+                     [TElocus simulated counts]
+                     [TEsubfam simulated counts]
       Assumes annots and cbcs files in same directory
 " >&2
     exit 1

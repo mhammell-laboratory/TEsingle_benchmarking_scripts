@@ -10,9 +10,9 @@
 usage(){
     echo "
     Usage: sbatch $0 [MATES output directory]
-                     [T2T MATES2instance file]
-                     [T2T TElocus simulated counts]
-                     [T2T TEsubfam simulated counts]
+                     [MATES2instance file]
+                     [TElocus simulated counts]
+                     [TEsubfam simulated counts]
 " >&2
     exit 1
 }
